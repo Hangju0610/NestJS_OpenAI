@@ -14,8 +14,6 @@ export class ChatGptController {
       case 'education':
       case 'experience':
       case 'project':
-      case 'stack':
-      case 'contact':
       case 'ETC':
 
       default:
