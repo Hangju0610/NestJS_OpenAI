@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { v1 as uuid } from 'uuid';
 import OpenAI from 'openai';
 
 @Injectable()
 export class ChatGptService {
   // OpenAI 사용
   private readonly openai: OpenAI;
+
   constructor(private readonly configService: ConfigService) {
     this.openai = new OpenAI({
       apiKey: this.configService.get('OPENAI_API_KEY'),
@@ -55,6 +57,42 @@ export class ChatGptService {
         },
       ],
     });
-    return introduce.choices[0].message.content;
+    const gptResult = JSON.parse(introduce.choices[0].message.content);
+    const finalResult = [
+      {
+        id: uuid(),
+        category: 'introduce',
+        type: 'Section',
+        tags: 'HeadingTwo',
+        text: [gptResult.title],
+        hasChildren: true,
+        Children: [
+          {
+            id: uuid(),
+            type: 'Block',
+            tags: 'ListItem',
+            text: [gptResult.content],
+            hasChildren: true,
+            Children: this.createColumn(gptResult.column),
+          },
+        ],
+      },
+    ];
+    return finalResult;
+  }
+
+  createColumn(column: string[]) {
+    const columnArray = [];
+    for (const value of column) {
+      const addColumn = {
+        id: uuid(),
+        type: 'Block',
+        tags: 'Column',
+        text: [value],
+        hasChildren: false,
+      };
+      columnArray.push(addColumn);
+    }
+    return columnArray;
   }
 }
