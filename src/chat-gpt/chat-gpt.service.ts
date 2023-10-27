@@ -16,7 +16,7 @@ export class ChatGptService {
     console.log('introduce 입력 하나 받았다.');
     const introduce = await this.openai.chat.completions.create({
       model: 'gpt-3.5-turbo-0613',
-      temperature: 0.8,
+      temperature: 0.9,
       messages: [
         {
           role: 'system',
@@ -33,7 +33,7 @@ export class ChatGptService {
           {
             "title" : "소제목",
             "content" : "내용",
-            "column" : ["자신의 장점 1", "자신의 장점 2", "자신의 장점 3"]
+            "column" : ["자신의 장점 1", "자신의 장점 2", "자신의 장점 3", ...]
             "Token" : "사용한 Token의 수"
           }
           form으로 작성한다.
