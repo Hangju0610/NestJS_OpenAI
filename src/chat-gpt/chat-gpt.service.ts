@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { v1 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import OpenAI from 'openai';
 
 @Injectable()
@@ -81,6 +81,9 @@ export class ChatGptService {
     return finalResult;
   }
 
+  // 이런 식으로 로직을 짠다고 하면 괜찮지 않을까 싶음
+  // title이나 column, number list 등으로 각각 작성하면 되지 않을까??
+  // type 구분은 객체의 반복문을 돌려서 타입을 확인하고, 그것에 맞는 메서드를 넣으면 되지 않을까 싶음.
   createColumn(column: string[]) {
     const columnArray = [];
     for (const value of column) {
@@ -96,3 +99,7 @@ export class ChatGptService {
     return columnArray;
   }
 }
+
+// 자기소개를 입력해주세요
+// text: "코딩을 시작한 이유는 내가 원하는 것을 만들 수 있는 힘에 흥미를 느껴 시작하게 되었습니다. 새로운 기술에 대한 두려움 없이 주도적으로 문제에 대해 고민하고 해결하는 것을 좋아합니다. 저는 특히 서버의 성능 개선과 안정성 확보에 큰 관심을 갖고 있습니다. 팀의 성장과 개인의 성장에도 열정을 갖고 있으며, 팀원들과의 소통과 협력을 중요하게 생각합니다. 더 나아가, 저는 다양한 프로젝트를 통해 다양한 경험을 쌓고 싶어합니다. 새로운 도전에 두려움 없이 도전하고 성장하는 모습을 보여드리겠습니다. 감사합니다"
+// 자기소개에 들어갈 자신의 강점과, 근거를 적어주세요.
